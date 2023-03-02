@@ -7,8 +7,8 @@
     "build": "tsc && vite build"
   },
   "dependencies": {
-    "@motion-canvas/core": "^3.0.0",
-    "@motion-canvas/2d": "^3.0.2"
+    "@motion-canvas/2d": "^3.0.2",
+    "@motion-canvas/core": "^3.0.0"
   },
   "devDependencies": {
     "@motion-canvas/ui": "^3.0.1",

@@ -1,13 +1,18 @@
 import {makeScene2D} from '@motion-canvas/2d/lib/scenes';
-import {createRef} from '@motion-canvas/core/lib/utils';
+import {createRef, range} from '@motion-canvas/core/lib/utils';
 import {all} from '@motion-canvas/core/lib/flow';
-import {Circle, Rect, Txt} from "@motion-canvas/2d/lib/components";
+import {Circle, Line, Rect, Txt} from "@motion-canvas/2d/lib/components";
 import {easeInCubic} from "@motion-canvas/core/lib/tweening";
+import {createSignal} from "@motion-canvas/core/lib/signals";
 
 export default makeScene2D(function* (view) {
     const windowMain = createRef<Rect>()
     const windowTop = createRef<Rect>()
     const codeBlockReference = createRef<Txt>()
+
+    const red = createRef<Circle>();
+    const yellow = createRef<Circle>();
+    const green = createRef<Circle>();
 
     yield view.add(
         <>
@@ -85,15 +90,53 @@ export default makeScene2D(function* (view) {
             ref={codeBlockReference}
             height={() => codeBlockReference().fontSize()}
             alignContent={"start"}
-            width={() => windowMain().width()-25}
+            width={() => windowMain().width() - 25}
             y={() => windowMain().height() / -2 + codeBlockReference().fontSize() + 25}
             x={10}
             fontSize={40}
-            fontFamily={"monospace"}
-            fill={"rgb(0,255,0)"}
+            fontFamily={"Roboto"}
             fontStyle={"bold"}
             text={""}
         />
     )
     yield* codeBlockReference().text('$ git push origin master', 1.5, easeInCubic);
+
+
+    // ARROW LINE
+    const lineRef = createRef<Line>()
+    const length = createSignal(0);
+
+    yield view.add(
+        <Line
+            ref={lineRef}
+            points={range(340).map(i => () => [
+                length() * i / 340, 0,
+            ])}
+            x={() => windowMain().width() / 2}
+            y={0}
+            lineDash={[20, 20]}
+            endArrow
+            lineWidth={8}
+            radius={0}
+            stroke={'#242424'}
+        />
+    );
+
+
+    // Make the Line move
+    yield* length(view.width() / 2, 2)
+
+
+    yield view.add(
+        <Rect
+            ref={windowTop}
+            radius={[10, 10, 0, 0]}
+            fill="#3F3F3F"
+            width={() => windowMain().width()}
+            height={50}
+            x={0}
+            y={() => windowMain().height() / -2}
+            zIndex={10}
+        />
+    )
 });

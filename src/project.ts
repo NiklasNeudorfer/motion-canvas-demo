@@ -1,7 +1,8 @@
 import {makeProject} from '@motion-canvas/core';
 
-import example from './scenes/example?scene';
+import leonie from "./scenes/leonie?scene";
 
 export default makeProject({
-  scenes: [example],
+  scenes: [leonie],
+  //scenes: [sinfunction]
 });

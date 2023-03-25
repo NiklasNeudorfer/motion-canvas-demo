@@ -1,8 +1,8 @@
 import {makeProject} from '@motion-canvas/core';
 
-import leonie from "./scenes/leonie?scene";
+import ghactions from "./scenes/ghActionsComponents?scene";
 
 export default makeProject({
-  scenes: [leonie],
+  scenes: [ghactions],
   //scenes: [sinfunction]
 });

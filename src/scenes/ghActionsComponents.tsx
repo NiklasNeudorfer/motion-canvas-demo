@@ -2,7 +2,7 @@ import {makeScene2D} from "@motion-canvas/2d";
 import {Circle, Line, Rect, Txt} from "@motion-canvas/2d/lib/components";
 import {beginSlide, createRef, range} from "@motion-canvas/core/lib/utils";
 import {easeInCubic} from "@motion-canvas/core/lib/tweening";
-import {all, waitFor} from "@motion-canvas/core/lib/flow";
+import {all, chain, waitFor} from "@motion-canvas/core/lib/flow";
 import {createSignal} from "@motion-canvas/core/lib/signals";
 
 export default makeScene2D(function* (view) {
@@ -39,7 +39,7 @@ export default makeScene2D(function* (view) {
 
     const connectorLength = createSignal(0);
 
-    //yield* beginSlide('first slide');
+    yield* beginSlide('first slide');
 
     // region DRAWING
     yield view.add(
@@ -85,7 +85,7 @@ export default makeScene2D(function* (view) {
                 height={circleRadius}
                 fill="#0A69DB"
                 zIndex={10}
-                x={boxWidth / 2}>
+                x={() => event().width() / 2}>
                 <Circle ref={eventCircleWhite} width={smallerCircleRadius} height={smallerCircleRadius} fill="#FFFFFF"/>
             </Circle>
         </Rect>
@@ -158,7 +158,7 @@ export default makeScene2D(function* (view) {
                 height={circleRadius}
                 fill="#0A69DB"
                 zIndex={-1}
-                x={boxWidth / -2}>
+                x={() => runner2().width() / -2}>
                 <Circle ref={runner2CircleWhiteLeft} width={smallerCircleRadius} height={smallerCircleRadius}
                         fill="#FFFFFF"/>
             </Circle>
@@ -208,6 +208,7 @@ export default makeScene2D(function* (view) {
     // region REMOVE CONTENT
     yield* event().width(0, 0)
     yield* eventCircleBlue().width(0, 0)
+    yield* eventCircleBlue().height(0, 0)
     yield* eventCircleWhite().width(0, 0)
     yield* eventCircleWhite().height(0, 0)
     yield* eventText().opacity(0, 0)
@@ -236,58 +237,46 @@ export default makeScene2D(function* (view) {
     // endregion
 
 
-    // region 1st BLUE THINGY - Event
-    yield* event().restore(1, easeInCubic)
-    yield* eventText().restore(0.3, easeInCubic)
-
     yield* all(
-        eventCircleBlue().restore(0.2, easeInCubic),
-        eventCircleWhite().restore(0.2, easeInCubic)
-    )
-    // endregion
-
-    // region 2nd BLUE THINGY - Runner 1
-    yield* all(
-        runner1().restore(1, easeInCubic),
-        runner1CircleBlueRight().restore(1, easeInCubic),
-        runner1CircleBlueLeft().restore(1, easeInCubic),
-        runner1CircleWhiteRight().restore(1, easeInCubic),
-        runner1CircleWhiteLeft().restore(1, easeInCubic),
-
-        connectorLength(boxWidth, 1.3)
-    )
-
-    yield* runner1Text().restore(0.7, easeInCubic)
-    // endregion
-
-    // region 3rd BLUE THINGY - Runner 2
-    yield* runner2().restore(1, easeInCubic)
-    yield* runner2Text().restore(0.3, easeInCubic)
-
-    yield* all(
-        runner2CircleBlueLeft().restore(0.2, easeInCubic),
-        runner2CircleWhiteLeft().restore(0.2, easeInCubic)
-    )
-    // endregion
-
-    yield* connectorLength(boxWidth * 3, 2, easeInCubic)
-
-
-    yield* waitFor(3)
-
-    yield* beginSlide('second slide');
-
-    yield* runner1().radius([boxRadius, boxRadius, 0, 0], 0.5, easeInCubic)
-    yield* all(
-        runner1Content().position.y(boxHeight * 2, 1),
-        runner1Content().height(boxHeight * 3, 1)
+        all(
+            event().restore(1, easeInCubic),
+            eventText().restore(1.5, easeInCubic),
+            eventCircleBlue().restore(1, easeInCubic),
+            eventCircleWhite().restore(1, easeInCubic)
+        ),
+        all(
+            runner1().restore(1, easeInCubic),
+            runner1CircleBlueRight().restore(1, easeInCubic),
+            runner1CircleBlueLeft().restore(1, easeInCubic),
+            runner1CircleWhiteRight().restore(1, easeInCubic),
+            runner1CircleWhiteLeft().restore(1, easeInCubic),
+            runner1Text().restore(1.5, easeInCubic)
+        ),
+        all(
+            runner2().restore(1, easeInCubic),
+            runner2Text().restore(1.5, easeInCubic),
+            runner2CircleBlueLeft().restore(1, easeInCubic),
+            runner2CircleWhiteLeft().restore(1, easeInCubic)
+        )
     )
 
-    yield* runner2().radius([boxRadius, boxRadius, 0, 0], 0.5, easeInCubic)
+    yield* connectorLength(boxWidth * 3, 1.5, easeInCubic)
 
+
+    yield* beginSlide('Expand');
     yield* all(
-        runner2Content().position.y(boxHeight * 2, 1),
-        runner2Content().height(boxHeight * 3, 1)
+        // BOX 1
+        runner1().radius([boxRadius, boxRadius, 0, 0], 0.5, easeInCubic),
+        all(
+            runner1Content().position.y(boxHeight * 2, 1),
+            runner1Content().height(boxHeight * 3, 1)
+        ),
+        // BOX 2
+        runner2().radius([boxRadius, boxRadius, 0, 0], 0.5, easeInCubic),
+        all(
+            runner2Content().position.y(boxHeight * 2, 1),
+            runner2Content().height(boxHeight * 3, 1)
+        )
     )
 
     yield* waitFor(10)

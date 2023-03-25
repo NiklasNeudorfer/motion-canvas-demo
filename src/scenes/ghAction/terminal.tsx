@@ -1,7 +1,7 @@
 import {makeScene2D} from '@motion-canvas/2d/lib/scenes';
 import {createRef, range} from '@motion-canvas/core/lib/utils';
 import {all} from '@motion-canvas/core/lib/flow';
-import {Circle, Line, Rect, Txt} from "@motion-canvas/2d/lib/components";
+import {Circle, Line, Rect, Txt, Node} from "@motion-canvas/2d/lib/components";
 import {easeInCubic} from "@motion-canvas/core/lib/tweening";
 import {createSignal} from "@motion-canvas/core/lib/signals";
 
@@ -14,8 +14,8 @@ export default makeScene2D(function* (view) {
     const yellow = createRef<Circle>();
     const green = createRef<Circle>();
 
-    yield view.add(
-        <>
+    view.add(
+        <Node>
             <Rect
                 ref={windowTop}
                 radius={[10, 10, 0, 0]}
@@ -62,7 +62,7 @@ export default makeScene2D(function* (view) {
                 opacity={0.75}
             >
             </Rect>
-        </>
+        </Node>
     )
 
 
@@ -85,7 +85,7 @@ export default makeScene2D(function* (view) {
 
 
     // add CodeBlock
-    yield view.add(
+    view.add(
         <Txt
             ref={codeBlockReference}
             height={() => codeBlockReference().fontSize()}
@@ -102,11 +102,14 @@ export default makeScene2D(function* (view) {
     yield* codeBlockReference().text('$ git push origin master', 1.5, easeInCubic);
 
 
+
+
+
     // ARROW LINE
     const lineRef = createRef<Line>()
     const length = createSignal(0);
 
-    yield view.add(
+    view.add(
         <Line
             ref={lineRef}
             points={range(340).map(i => () => [
@@ -125,18 +128,4 @@ export default makeScene2D(function* (view) {
 
     // Make the Line move
     yield* length(view.width() / 2, 2)
-
-
-    yield view.add(
-        <Rect
-            ref={windowTop}
-            radius={[10, 10, 0, 0]}
-            fill="#3F3F3F"
-            width={() => windowMain().width()}
-            height={50}
-            x={0}
-            y={() => windowMain().height() / -2}
-            zIndex={10}
-        />
-    )
 });

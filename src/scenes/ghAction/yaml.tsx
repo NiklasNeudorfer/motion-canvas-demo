@@ -13,6 +13,9 @@ export default makeScene2D(function* (view) {
     const container = createRef<Rect>()
     const codeGhAction = createRef<CodeBlock>()
 
+
+    yield* slideTransition(Direction.Right);
+
     view.add(
         <Rect ref={container}
               radius={10}
@@ -49,8 +52,6 @@ jobs:
 
         </Rect>
     );
-
-    yield* slideTransition(Direction.Right);
 
 
 

@@ -46,7 +46,7 @@ export default makeScene2D(function* (view) {
     //yield* beginSlide('first slide');
 
     // region DRAWING
-    yield view.add(
+    view.add(
         <Rect
             ref={event}
             x={boxWidth * -spacingFactor}
@@ -70,7 +70,7 @@ export default makeScene2D(function* (view) {
         </Rect>
     )
 
-    yield view.add(
+    view.add(
         <Rect
             ref={event}
             x={boxWidth * -spacingFactor}
@@ -95,7 +95,7 @@ export default makeScene2D(function* (view) {
         </Rect>
     )
 
-    yield view.add(
+    view.add(
         <Rect
             ref={runner1}
             x={0}
@@ -143,7 +143,7 @@ export default makeScene2D(function* (view) {
         </Rect>
     )
 
-    yield view.add(
+    view.add(
         <Rect
             ref={runner2}
             x={boxWidth * spacingFactor}

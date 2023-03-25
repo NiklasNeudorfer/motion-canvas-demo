@@ -10,10 +10,6 @@ export default makeScene2D(function* (view) {
     const windowTop = createRef<Rect>()
     const codeBlockReference = createRef<Txt>()
 
-    const red = createRef<Circle>();
-    const yellow = createRef<Circle>();
-    const green = createRef<Circle>();
-
     view.add(
         <Node>
             <Rect
@@ -22,7 +18,6 @@ export default makeScene2D(function* (view) {
                 fill="#3F3F3F"
                 width={() => windowMain().width()}
                 height={50}
-                x={0}
                 y={() => windowMain().height() / -2}
                 zIndex={10}
             >
@@ -32,7 +27,6 @@ export default makeScene2D(function* (view) {
                     height={() => windowTop().height() / 2}
                     zIndex={1000}
                     x={() => windowTop().width() / -2 + (windowTop().height() / 2) * 1.8}
-                    y={0}
                 />
                 <Circle
                     fill="#F4C917"
@@ -40,7 +34,6 @@ export default makeScene2D(function* (view) {
                     height={() => windowTop().height() / 2}
                     zIndex={1000}
                     x={() => windowTop().width() / -2 + ((windowTop().height() / 2) * 1.8) * 2}
-                    y={0}
                 />
                 <Circle
                     fill="#00F419"
@@ -48,7 +41,6 @@ export default makeScene2D(function* (view) {
                     height={() => windowTop().height() / 2}
                     zIndex={1000}
                     x={() => windowTop().width() / -2 + ((windowTop().height() / 2) * 1.8) * 3}
-                    y={0}
                 />
             </Rect>
             <Rect
@@ -58,9 +50,20 @@ export default makeScene2D(function* (view) {
                 width={1000}
                 height={500}
                 y={() => windowTop().height() / 2}
-                x={0}
                 opacity={0.75}
             >
+                <Txt
+                    ref={codeBlockReference}
+                    height={() => codeBlockReference().fontSize()}
+                    alignContent={"start"}
+                    width={() => windowMain().width() - 25}
+                    y={() => windowMain().height() / -2 + codeBlockReference().fontSize() + 25}
+                    x={10}
+                    fontSize={40}
+                    fontFamily={"Roboto"}
+                    fontStyle={"bold"}
+                    text={""}
+                />
             </Rect>
         </Node>
     )
@@ -83,26 +86,8 @@ export default makeScene2D(function* (view) {
         windowTop().restore(1),
     )
 
-
-    // add CodeBlock
-    view.add(
-        <Txt
-            ref={codeBlockReference}
-            height={() => codeBlockReference().fontSize()}
-            alignContent={"start"}
-            width={() => windowMain().width() - 25}
-            y={() => windowMain().height() / -2 + codeBlockReference().fontSize() + 25}
-            x={10}
-            fontSize={40}
-            fontFamily={"Roboto"}
-            fontStyle={"bold"}
-            text={""}
-        />
-    )
+    // add CodeBlock Text
     yield* codeBlockReference().text('$ git push origin master', 1.5, easeInCubic);
-
-
-
 
 
     // ARROW LINE

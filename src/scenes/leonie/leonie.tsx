@@ -4,11 +4,11 @@ import {beginSlide, createRef} from "@motion-canvas/core/lib/utils";
 import {easeInCubic} from "@motion-canvas/core/lib/tweening";
 import {all, chain, loop, waitFor} from "@motion-canvas/core/lib/flow";
 
-import leonieLogo from "../../images/leonie/logo_red.svg"
-import sysArch from "../../images/leonie/newArch.png"
-import diagramm from "../../images/leonie/arch.png"
-import leonieIdle from "../../images/leonie/LeonieIdle.mp4"
-import leonie2DLogo from "../../images/leonie/Leonie2DLogo.png"
+import leonieLogo from "../../../images/leonie/logo_red.svg"
+import sysArch from "../../../images/leonie/newArch.png"
+import diagramm from "../../../images/leonie/arch.png"
+import leonieIdle from "../../../images/leonie/LeonieIdle.mp4"
+import leonie2DLogo from "../../../images/leonie/Leonie2DLogo.png"
 import {cancel} from "@motion-canvas/core/lib/threading";
 
 export default makeScene2D(function* (view) {

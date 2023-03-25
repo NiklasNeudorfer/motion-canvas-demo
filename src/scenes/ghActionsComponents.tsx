@@ -4,6 +4,8 @@ import {beginSlide, createRef, range} from "@motion-canvas/core/lib/utils";
 import {easeInCubic} from "@motion-canvas/core/lib/tweening";
 import {all, chain, waitFor} from "@motion-canvas/core/lib/flow";
 import {createSignal} from "@motion-canvas/core/lib/signals";
+import {slideTransition} from "@motion-canvas/core/lib/transitions";
+import {Direction} from "@motion-canvas/core/lib/types";
 
 export default makeScene2D(function* (view) {
     let boxWidth = 500;
@@ -39,7 +41,9 @@ export default makeScene2D(function* (view) {
 
     const connectorLength = createSignal(0);
 
-    yield* beginSlide('first slide');
+
+    yield* slideTransition(Direction.Bottom, 2)
+    //yield* beginSlide('first slide');
 
     // region DRAWING
     yield view.add(
@@ -279,5 +283,5 @@ export default makeScene2D(function* (view) {
         )
     )
 
-    yield* waitFor(10)
+    yield* waitFor(3)
 });

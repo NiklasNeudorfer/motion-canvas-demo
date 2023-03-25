@@ -1,9 +1,11 @@
 import {makeScene2D} from '@motion-canvas/2d/lib/scenes';
 import {createRef, range} from '@motion-canvas/core/lib/utils';
 import {all} from '@motion-canvas/core/lib/flow';
-import {Circle, Line, Rect, Txt, Node} from "@motion-canvas/2d/lib/components";
+import {Circle, Line, Node, Rect, Txt} from "@motion-canvas/2d/lib/components";
 import {easeInCubic} from "@motion-canvas/core/lib/tweening";
 import {createSignal} from "@motion-canvas/core/lib/signals";
+import {slideTransition} from "@motion-canvas/core/lib/transitions";
+import {Direction} from "@motion-canvas/core/lib/types";
 
 export default makeScene2D(function* (view) {
     const windowMain = createRef<Rect>()

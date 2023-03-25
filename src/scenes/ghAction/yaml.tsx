@@ -1,10 +1,8 @@
 import {makeScene2D} from '@motion-canvas/2d/lib/scenes';
-import {createRef, range} from '@motion-canvas/core/lib/utils';
-import {all, waitFor} from '@motion-canvas/core/lib/flow';
-import {Circle, Line, Rect, Txt} from "@motion-canvas/2d/lib/components";
-import {easeInBounce, easeInCubic, easeInOutCubic, map, tween} from "@motion-canvas/core/lib/tweening";
-import {Direction, Vector2} from "@motion-canvas/core/lib/types";
-import {createSignal} from "@motion-canvas/core/lib/signals";
+import {createRef} from '@motion-canvas/core/lib/utils';
+import {all} from '@motion-canvas/core/lib/flow';
+import {Rect} from "@motion-canvas/2d/lib/components";
+import {Direction} from "@motion-canvas/core/lib/types";
 import {slideTransition} from "@motion-canvas/core/lib/transitions";
 import {CodeBlock, lines} from "@motion-canvas/2d/lib/components/CodeBlock";
 
@@ -12,9 +10,6 @@ export default makeScene2D(function* (view) {
 
     const container = createRef<Rect>()
     const codeGhAction = createRef<CodeBlock>()
-
-
-    yield* slideTransition(Direction.Right);
 
     view.add(
         <Rect ref={container}
@@ -53,6 +48,7 @@ jobs:
         </Rect>
     );
 
+    yield* slideTransition(Direction.Right,1)
 
 
     yield* all(

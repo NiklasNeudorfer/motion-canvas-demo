@@ -30,6 +30,11 @@ export default makeScene2D(function* (view) {
                  text={""}
                  x={() => 1150 / 2 - 100}
                  y={() => -view.height() / 2 + 100}/>
+            <Txt text={"XPath"}
+                 fontSize={40}
+                 fontFamily={"Fira Code"}
+                 x={() => view.width() / 2 - 100}
+                 y={() => view.height() / 2 - 20}/>
         </Rect>
     )
 

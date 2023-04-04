@@ -1,7 +1,8 @@
 import {makeScene2D} from "@motion-canvas/2d";
 import {beginSlide, createRef} from "@motion-canvas/core/lib/utils";
 import {Img, Node, Polygon, Rect, Txt, Video} from "@motion-canvas/2d/lib/components";
-import {waitFor} from "@motion-canvas/core/lib/flow";
+import {all, waitFor} from "@motion-canvas/core/lib/flow";
+import {CodeBlock, insert} from "@motion-canvas/2d/lib/components/CodeBlock";
 
 export default makeScene2D(function* (view) {
 
@@ -9,11 +10,30 @@ export default makeScene2D(function* (view) {
 
     yield* beginSlide("Start")
 
+    const title = createRef<CodeBlock>()
+
 
     view.add(
-        <Txt fontSize={70} fill={"white"} fontFamily={'Fira Code'} text={"XML, XPath, XQuery, DTD/XSD"}/>
+        <CodeBlock ref={title} language={"xml"} fontSize={100}/>
     )
 
-    yield* waitFor(3)
+    yield* all(
+        title().code(`
+            <Presentation mainTopic='XML'>
+            </Presentation>`, 2)
+    )
+
+    yield* beginSlide("Topics")
+
+    yield* all(
+        title().edit(2.1)`
+         <Presentation mainTopic='XML'>
+            ${insert('<Topic> XPath </Topic>\n' +
+            '   <Topic> XQuery </Topic>\n' +
+            '   <Topic> DTD/XSD </Topic>')} 
+         </Presentation>`
+    )
+
+    yield* beginSlide("Start")
 
 });

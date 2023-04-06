@@ -1,7 +1,6 @@
 import {makeScene2D} from "@motion-canvas/2d";
 import {beginSlide, createRef} from "@motion-canvas/core/lib/utils";
-import {Img, Node, Polygon, Rect, Txt, Video} from "@motion-canvas/2d/lib/components";
-import {all, waitFor} from "@motion-canvas/core/lib/flow";
+import {all} from "@motion-canvas/core/lib/flow";
 import {CodeBlock, insert} from "@motion-canvas/2d/lib/components/CodeBlock";
 
 export default makeScene2D(function* (view) {

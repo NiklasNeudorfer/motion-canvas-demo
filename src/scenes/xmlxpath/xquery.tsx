@@ -1,7 +1,7 @@
 import {makeScene2D} from "@motion-canvas/2d";
 import {beginSlide, createRef} from "@motion-canvas/core/lib/utils";
 import {Rect, Txt} from "@motion-canvas/2d/lib/components";
-import {all, chain, waitFor} from "@motion-canvas/core/lib/flow";
+import {all} from "@motion-canvas/core/lib/flow";
 import {slideTransition} from "@motion-canvas/core/lib/transitions";
 import {Direction} from "@motion-canvas/core/lib/types";
 import {CodeBlock} from "@motion-canvas/2d/lib/components/CodeBlock";
@@ -75,6 +75,6 @@ export default makeScene2D(function* (view) {
         codeContainer().restore(2)
     )
 
-    yield* waitFor(3)
+    yield* beginSlide("End")
 
 });

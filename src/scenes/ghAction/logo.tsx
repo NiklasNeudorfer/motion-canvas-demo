@@ -4,8 +4,6 @@ import {all, chain, waitFor} from "@motion-canvas/core/lib/flow";
 import {beginSlide, createRef, range} from "@motion-canvas/core/lib/utils";
 import {easeInCubic, easeOutCubic, SmoothSpring, spring} from "@motion-canvas/core/lib/tweening";
 import {createSignal} from "@motion-canvas/core/lib/signals";
-import {slideTransition} from "@motion-canvas/core/lib/transitions";
-import {Direction} from "@motion-canvas/core/lib/types";
 
 export default makeScene2D(function* (view) {
 

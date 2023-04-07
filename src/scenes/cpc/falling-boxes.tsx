@@ -1,15 +1,12 @@
 import {makeScene2D} from "@motion-canvas/2d";
-import {beginSlide, range, useRandom, useScene} from "@motion-canvas/core/lib/utils";
-import {useTransition} from "@motion-canvas/core/lib/transitions";
-import {Direction, Vector2} from "@motion-canvas/core/lib/types";
-import {all, waitFor} from "@motion-canvas/core/lib/flow";
+import {beginSlide, range, useRandom} from "@motion-canvas/core/lib/utils";
+import {all} from "@motion-canvas/core/lib/flow";
 import {Img, Node, Rect} from "@motion-canvas/2d/lib/components";
 import {createSignal} from "@motion-canvas/core/lib/signals";
 import box_1 from "../../../images/cpc/Box_1.png"
 import box_2 from "../../../images/cpc/Box_2.png"
 import box_3 from "../../../images/cpc/Box_3.png"
 import box_4 from "../../../images/cpc/Box_4.png"
-import {ThreadGenerator} from "@motion-canvas/core/lib/threading";
 
 export default makeScene2D(function* (view) {
 
@@ -48,7 +45,12 @@ export default makeScene2D(function* (view) {
             console.debug(speed)
 
             return (
-                <Img src={box_color === 1 ? box_1 :
+                <Img
+                    shadowColor={box_color === 1 ? "#6879EA" :
+                        box_color === 2 ? "red" :
+                            box_color === 3 ? "yellow" : "limegreen"}
+                    shadowBlur={60}
+                    src={box_color === 1 ? box_1 :
                     box_color === 2 ? box_2 :
                         box_color === 3 ? box_3 : box_4}
                      x={globalRandom.nextInt(-view.width() / 2, view.width() / 2)}
@@ -66,7 +68,7 @@ export default makeScene2D(function* (view) {
                 <Node spawner={() => boxes.slice(0, count() / 2)}/>
             </Rect>
             <Rect height={() => view.height()} y={-view.height() * 2} width={() => view.width()}>
-                <Node spawner={() => boxes.slice(count() / 2, count())}/>
+                <Node spawner={() => boxes.slice(count() / 2, count() * 0.75)}/>
             </Rect>
         </>
     );

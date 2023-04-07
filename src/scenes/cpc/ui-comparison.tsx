@@ -37,7 +37,7 @@ export default makeScene2D(function* (view) {
     )
 
 
-    yield* slideTransition(Direction.Bottom)
+    // yield* slideTransition(Direction.Bottom)
 
 
     yield* beginSlide("Start")

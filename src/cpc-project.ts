@@ -4,7 +4,8 @@ import uiComparison from "./scenes/cpc/ui-comparison?scene";
 import "./global.css";
 import title from "./scenes/cpc/title?scene";
 import fallingBoxes from "./scenes/cpc/falling-boxes?scene";
+import enomicsDiagram from "./scenes/cpc/enomics-diagram?scene";
 
 export default makeProject({
-    scenes: [title, logo,fallingBoxes, uiComparison],
+    scenes: [title, logo, enomicsDiagram, fallingBoxes, uiComparison],
 });

@@ -2,7 +2,7 @@ import {makeScene2D} from "@motion-canvas/2d";
 import {beginSlide, createRef} from "@motion-canvas/core/lib/utils";
 import {slideTransition} from "@motion-canvas/core/lib/transitions";
 import {Direction} from "@motion-canvas/core/lib/types";
-import {all, sequence, waitFor} from "@motion-canvas/core/lib/flow";
+import {all, sequence} from "@motion-canvas/core/lib/flow";
 import {Img, Node, Rect, Txt} from "@motion-canvas/2d/lib/components";
 import enomicsFont from "../../../images/cpc/EnomicsFont.jpg"
 import {SmoothSpring, spring} from "@motion-canvas/core/lib/tweening";
@@ -192,6 +192,4 @@ export default makeScene2D(function* (view) {
 
     yield* beginSlide("End Logo")
 
-
-    yield* waitFor(1)
 })

@@ -14,8 +14,6 @@ export default makeScene2D(function* (view) {
     const enomicsColor = "rgb(0, 187, 255)"
     const logoLength = 500;
 
-    yield* beginSlide("START")
-
     const bgRef = createRef<Rect>()
 
     view.add(
@@ -27,6 +25,7 @@ export default makeScene2D(function* (view) {
         </Rect>
     )
 
+    yield* beginSlide("START")
 
     const firstLetter = createRef<Txt>()
     const secondLetter = createRef<Txt>()

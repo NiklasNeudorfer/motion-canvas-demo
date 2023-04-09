@@ -14,6 +14,8 @@ export default makeScene2D(function* (view) {
     const enomicsColor = "rgb(0, 187, 255)"
     const logoLength = 500;
 
+    yield* beginSlide("START")
+
     const bgRef = createRef<Rect>()
 
     view.add(
@@ -145,8 +147,6 @@ export default makeScene2D(function* (view) {
         </>
     )
 
-    yield* beginSlide("START")
-
 
     yield* chain(
         all(
@@ -200,7 +200,7 @@ export default makeScene2D(function* (view) {
             //borderLength(view.width() * 2, 2),
             topSpline().end(1, 2),
             bottomSpline().start(0, 2),
-            enomics().opacity(1,3)
+            enomics().opacity(1, 3)
         ),
         sequence(
             0.1,
@@ -210,10 +210,36 @@ export default makeScene2D(function* (view) {
         )
     )
 
+    yield* beginSlide("Other Name")
+
+    const otherNameRect = createRef<Rect>()
+    const otherNameText = createRef<Txt>()
+
+    view.add(
+        <>
+            <Rect ref={otherNameRect} y={view.height()} fill={"white"} shadowBlur={20} shadowColor={enomicsColor}
+                  height={view.height() / 2 + 100} radius={40}
+                  width={view.width() / 2 + 400}>
+
+                <Txt ref={otherNameText} fontFamily={"Space Grotesk"} fontSize={100} y={-100}/>
+            </Rect>
+
+        </>
+    )
+
+    yield* sequence(
+        0.3,
+        otherNameRect().position.y(view.height() / 2 - 200, 2),
+        otherNameText().text("Ladestation \nKonfigurations- \nund Steuerungs Werkzeug", 2)
+    )
 
     yield* beginSlide("End Title ")
 
     yield* all(
+        chain(
+            otherNameRect().position.y(view.height(), 1),
+            otherNameRect().opacity(0,0)
+        ),
         // topSpline().start(1, 2),
         // bottomSpline().end(0, 2),
         bgRef().radius([bgRadius, bgRadius, 0, 0], 1)

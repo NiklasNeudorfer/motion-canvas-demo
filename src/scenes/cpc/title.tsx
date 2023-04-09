@@ -230,7 +230,7 @@ export default makeScene2D(function* (view) {
     yield* sequence(
         0.3,
         otherNameRect().position.y(view.height() / 2 - 200, 2),
-        otherNameText().text("Ladestation \nKonfigurations- \nund Steuerungs Werkzeug", 2)
+        otherNameText().text("Ladestation \nKonfigurations- \nund Steuerungswerkzeug", 2)
     )
 
     yield* beginSlide("End Title ")

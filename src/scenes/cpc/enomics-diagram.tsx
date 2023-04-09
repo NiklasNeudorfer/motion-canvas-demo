@@ -5,8 +5,9 @@ import {Direction} from "@motion-canvas/core/lib/types";
 import {all, chain, sequence, waitFor} from "@motion-canvas/core/lib/flow";
 import {Icon, Img, Line, Node, Rect, Txt} from "@motion-canvas/2d/lib/components";
 import enomicsFont from "../../../images/cpc/EnomicsFont.jpg"
-import {SmoothSpring, spring} from "@motion-canvas/core/lib/tweening";
-import redBox from "../../../images/cpc/Box_2.png"
+import {easeInCubic, easeInOutCubic, SmoothSpring, spring} from "@motion-canvas/core/lib/tweening";
+import redBox from "../../../images/cpc/Box_4.png"
+import parkingSrc from "../../../images/cpc/parking.png"
 import raspLogo from "../../../images/cpc/rasp-pi-logo.png"
 import newUI from "../../../images/cpc/overview_ui.png"
 
@@ -92,8 +93,10 @@ export default makeScene2D(function* (view) {
     const desktopIcon = createRef<Icon>()
     const raspImg = createRef<Img>()
 
+    const diagram = createRef<Node>()
+
     yield view.add(
-        <>
+        <Node ref={diagram}>
             <Line ref={topLine} lineWidth={10} lineDash={[20, 20]}
                   endArrow stroke={lineColor} end={0} points={
                 [
@@ -131,7 +134,7 @@ export default makeScene2D(function* (view) {
                 <Img ref={box2} src={redBox} scale={0.5} x={700} y={400}/>
                 <Img ref={box3} src={redBox} scale={0.5} x={700} y={200}/>
             </Node>
-        </>
+        </Node>
     )
 
     // Animate charging-Boxes
@@ -155,7 +158,7 @@ export default makeScene2D(function* (view) {
         sequence(
             0.3,
             all(
-                spring(SmoothSpring, box1().position.x(), 700, value => {
+                spring(SmoothSpring, box1().position.x(), 600, value => {
                     box1().position.x(value)
                 }),
                 spring(SmoothSpring, box1().position.y(), 0, value => {
@@ -163,7 +166,7 @@ export default makeScene2D(function* (view) {
                 }),
             ),
             all(
-                spring(SmoothSpring, box2().position.x(), 700, value => {
+                spring(SmoothSpring, box2().position.x(), 600, value => {
                     box2().position.x(value)
                 }),
                 spring(SmoothSpring, box2().position.y(), 200, value => {
@@ -171,7 +174,7 @@ export default makeScene2D(function* (view) {
                 }),
             ),
             all(
-                spring(SmoothSpring, box3().position.x(), 700, value => {
+                spring(SmoothSpring, box3().position.x(), 600, value => {
                     box3().position.x(value)
                 }),
                 spring(SmoothSpring, box3().position.y(), 400, value => {
@@ -187,6 +190,57 @@ export default makeScene2D(function* (view) {
                 topLine().end(1, 1)
             )
         )
+    )
+
+    yield* beginSlide("Enhance Diagram")
+
+    const parkingCar = createRef<Icon>()
+    const parkingSign = createRef<Node>()
+
+    view.add(
+        <Node x={200}>
+            <Node ref={parkingSign} y={-view.height()}>
+                <Line
+                    shadowColor={"lightgrey"} shadowBlur={5}
+                    lineWidth={12}
+                    stroke={"lightgrey"}
+                    points={[
+                        [450, 200],
+                        [450, 100]
+                    ]}
+                />
+
+                <Img shadowColor={"blue"} shadowBlur={8} src={parkingSrc} x={450} y={70} height={100} width={100}/>
+            </Node>
+
+            <Icon ref={parkingCar} icon={"fluent:vehicle-car-profile-rtl-20-regular"} color={lineColor}
+                  y={200} x={() => view.height()} height={200} width={200}/>
+        </Node>
+    )
+
+
+    yield* sequence(0.3,
+        all(
+            diagram().position.x(-200, 1),
+            diagram().position.y(-200, 1),
+            diagram().scale(1.2, 1),
+        ),
+        all(
+            enomics().scale(0.12, 1),
+            enomics().position.x(-825, 1),
+            enomics().position.y(10, 1),
+        ),
+        all(
+            parkingSign().scale(1.2, 0),
+            parkingCar().scale(1.2, 0),
+
+            parkingSign().position.y(-100, 1),
+            parkingSign().position.x(-50, 1),
+        ),
+        all(
+            parkingCar().position.x(650, 1, easeInOutCubic),
+            parkingCar().position.y(80, 1, easeInOutCubic),
+        ),
     )
 
 

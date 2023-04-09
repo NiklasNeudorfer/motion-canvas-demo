@@ -1,9 +1,10 @@
 import {makeScene2D} from "@motion-canvas/2d";
-import {beginSlide, createRef} from "@motion-canvas/core/lib/utils";
+import {beginSlide, createRef, range} from "@motion-canvas/core/lib/utils";
 import {all, chain, sequence} from "@motion-canvas/core/lib/flow";
-import {Rect, Txt} from "@motion-canvas/2d/lib/components";
+import {Img, Knot, Node, Rect, Spline, Txt} from "@motion-canvas/2d/lib/components";
 import {SmoothSpring, spring} from "@motion-canvas/core/lib/tweening";
 import {createSignal} from "@motion-canvas/core/lib/signals";
+import enomicsFont from "../../../images/cpc/EnomicsFont.jpg";
 
 export default makeScene2D(function* (view) {
 
@@ -34,6 +35,10 @@ export default makeScene2D(function* (view) {
     const thirdText = createRef<Txt>()
 
     const borderLength = createSignal(0)
+    const bottomSpline = createRef<Spline>()
+    const topSpline = createRef<Spline>()
+
+    const enomics = createRef<Node>()
 
     view.add(
         <>
@@ -41,15 +46,15 @@ export default makeScene2D(function* (view) {
             {/*     fontSize={700} fontFamily={"Open Sans"}/>*/}
 
             <Txt fill={"white"} shadowBlur={120} shadowColor={enomicsColor} ref={firstLetter} text={"C"} x={-435}
-                 fontSize={700} fontFamily={"Open Sans"}/>
+                 fontSize={700} fontFamily={"Space Grotesk"}/>
             <Txt fill={"white"} shadowBlur={120} shadowColor={enomicsColor} ref={secondLetter} text={"P"} fontSize={700}
-                 fontFamily={"Open Sans"}/>
+                 fontFamily={"Space Grotesk"}/>
             <Txt fill={"white"} shadowBlur={120} shadowColor={enomicsColor} ref={thirdLetter} text={"C"} x={435}
-                 fontSize={700} fontFamily={"Open Sans"}/>
+                 fontSize={700} fontFamily={"Space Grotesk"}/>
 
-            <Txt ref={firstText} y={-250} x={-200} fontSize={120} fontFamily={"Open Sans"}/>
-            <Txt ref={secondText} fontSize={120} fontFamily={"Open Sans"}/>
-            <Txt ref={thirdText} y={250} x={200} fontSize={120} fontFamily={"Open Sans"}/>
+            <Txt ref={firstText} y={-250} x={-200} fontSize={120} fontFamily={"Space Grotesk"}/>
+            <Txt ref={secondText} fontSize={120} fontFamily={"Space Grotesk"}/>
+            <Txt ref={thirdText} y={250} x={200} fontSize={120} fontFamily={"Space Grotesk"}/>
 
 
             <Rect shadowColor={"black"} shadowBlur={50} height={view.height()} width={() => borderLength()}
@@ -57,10 +62,90 @@ export default makeScene2D(function* (view) {
             <Rect shadowColor={"black"} shadowBlur={50} height={view.height()} width={() => borderLength()}
                   fill={"black"} rotation={30} y={view.height()}/>
 
-            <Txt fill={"white"} fontFamily={"Open Sans"} text={"Presented by Neudorfer Niklas"} x={view.width() / -2 + 380}
-                 y={view.height() / 2 - 60}/>
+            <Txt zIndex={100} fill={"white"} fontFamily={"Space Grotesk"} text={"Presented by Neudorfer Niklas"}
+                 x={view.width() / -2 + 380}
+                 y={view.height() / 2 - 220}/>
+
+
+            <Spline ref={topSpline} lineWidth={400} stroke={enomicsColor} lineJoin={'round'} end={0}
+                    shadowBlur={50} shadowColor={enomicsColor}
+                    rotation={30} x={-100} y={-view.height() / 2 - 100}>
+                {range(15).map(value => {
+                    return (
+                        <Knot position={[value * 200, Math.sin(value) * 100]}></Knot>
+                    )
+                })
+                }
+            </Spline>,
+
+            <Spline ref={bottomSpline} lineWidth={400} stroke={enomicsColor} lineJoin={'round'} end={1} start={1}
+                    shadowBlur={50} shadowColor={enomicsColor}
+                    rotation={30} x={() => -view.width() - 500} y={view.height() * -0.55 - 120}>
+                {range(15).map(value => {
+                    return (
+                        <Knot position={[value * 200, Math.sin(value) * 100]}></Knot>
+                    )
+                })
+                }
+            </Spline>,
+
+            <Txt zIndex={100} fill={"white"} fontFamily={"Space Grotesk"} text={"In cooperation with"}
+                 x={view.width() / 2 - 800}
+                 y={-420}/>
+
+            <Node ref={enomics} opacity={0} scale={0.4} x={view.width() / 2 - 600} y={-300}>
+                <Img src={enomicsFont} scale={10.2} opacity={0}/>
+
+                {/*<Txt x={-420} fill={enomicsColor} y={30} fontSize={390} fontFamily={"Open Sans"} text={"EN"}></Txt>*/}
+
+                <Txt x={-573} fill={"white"} y={30} fontSize={390} fontFamily={"Open Sans"}
+                     text={"E"}></Txt>
+                <Txt x={-310} fill={"white"} y={30} fontSize={390} fontFamily={"Open Sans"}
+                     text={"N"}></Txt>
+
+
+                {/*<Txt x={630} fill={enomicsColor} y={30} fontSize={390} fontFamily={"Open Sans"} text={"MICS"}></Txt>*/}
+
+                <Txt x={340} fill={"white"} y={30} fontSize={390} fontFamily={"Open Sans"}
+                     text={"M"}></Txt>
+                <Txt x={579} fill={"white"} y={30} fontSize={390} fontFamily={"Open Sans"}
+                     text={"I"}></Txt>
+                <Txt x={760} fill={"white"} y={30} fontSize={390} fontFamily={"Open Sans"}
+                     text={"C"}></Txt>
+                <Txt x={992} fill={"white"} y={30} fontSize={390} fontFamily={"Open Sans"}
+                     text={"S"}></Txt>
+
+
+                <Rect zIndex={-100} height={logoLength} width={logoLength}
+                      fill={"white"}
+                      scale={0.57}
+                    // opacity={1}
+                    // x={-410}
+                      radius={130}
+                      smoothCorners>
+
+                    <Rect height={logoLength} width={logoLength}
+                          fill={enomicsColor}
+                          scale={0.71}
+                          opacity={1}
+                          clip
+                          radius={90}
+                          smoothCorners>
+                    </Rect>
+
+                    <Rect height={50}
+                          width={logoLength + 20}
+                          fill={enomicsColor}/>
+
+                    <Rect rotation={90} height={50}
+                          width={logoLength + 20}
+                          fill={enomicsColor}/>
+                </Rect>
+            </Node>
         </>
     )
+
+    yield* beginSlide("START")
 
 
     yield* chain(
@@ -112,7 +197,10 @@ export default makeScene2D(function* (view) {
             secondLetter().shadowBlur(10, 1),
             thirdLetter().shadowBlur(10, 1),
 
-            borderLength(view.width() * 2, 2)
+            //borderLength(view.width() * 2, 2),
+            topSpline().end(1, 2),
+            bottomSpline().start(0, 2),
+            enomics().opacity(1,3)
         ),
         sequence(
             0.1,
@@ -126,6 +214,8 @@ export default makeScene2D(function* (view) {
     yield* beginSlide("End Title ")
 
     yield* all(
+        // topSpline().start(1, 2),
+        // bottomSpline().end(0, 2),
         bgRef().radius([bgRadius, bgRadius, 0, 0], 1)
     )
 

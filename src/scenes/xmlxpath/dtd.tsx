@@ -42,7 +42,7 @@ export default makeScene2D(function* (view) {
 
     view.add(
         <Rect ref={dtd} shadowColor={"white"} shadowBlur={100} y={() => view.height()} scale={0.7}
-              height={() => view.height() * 0.8} width={() => view.width() * 0.7} fill={"white"} radius={40}>
+              height={() => view.height() * 0.8} width={() => view.width() * 0.7} fill={"black"} radius={40}>
 
             <CodeBlock fontSize={70} language={"xml"} code={
                 `
@@ -70,7 +70,7 @@ export default makeScene2D(function* (view) {
 
     view.add(
         <Rect ref={dtdXML} shadowColor={"white"} shadowBlur={40} y={() => view.height()} scale={0.7}
-              height={() => view.height() * 0.4} width={() => view.width() * 0.9} fill={"white"} radius={40}>
+              height={() => view.height() * 0.4} width={() => view.width() * 0.9} fill={"black"} radius={40}>
 
             <CodeBlock fontSize={50} language={"xml"} code={
                 `

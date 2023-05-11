@@ -9,7 +9,9 @@ import {easeInCubic, easeInOutCubic, SmoothSpring, spring} from "@motion-canvas/
 import redBox from "../../../images/cpc/Box_4.png"
 import parkingSrc from "../../../images/cpc/parking.png"
 import raspLogo from "../../../images/cpc/rasp-pi-logo.png"
-import newUI from "../../../images/cpc/overview_ui.png"
+import whitelist from "../../../images/cpc/user-whitelist.png"
+import {Brace, SurroundingRectangle} from "@ksassnowski/motion-canvas-components";
+import userJournal from "../../../images/cpc/user-journal.png";
 
 export default makeScene2D(function* (view) {
 
@@ -221,26 +223,71 @@ export default makeScene2D(function* (view) {
 
     yield* sequence(0.3,
         all(
-            diagram().position.x(-200, 1),
+            diagram().position.x(-100, 1),
             diagram().position.y(-200, 1),
-            diagram().scale(1.2, 1),
+            diagram().scale(1, 1),
         ),
         all(
-            enomics().scale(0.12, 1),
-            enomics().position.x(-825, 1),
-            enomics().position.y(10, 1),
+            enomics().scale(0.1, 1),
+            enomics().position.x(-620, 1),
+            enomics().position.y(-20, 1),
         ),
         all(
-            parkingSign().scale(1.2, 0),
-            parkingCar().scale(1.2, 0),
+            parkingSign().scale(1, 0),
+            parkingCar().scale(1, 0),
 
-            parkingSign().position.y(-100, 1),
-            parkingSign().position.x(-50, 1),
+            parkingSign().position.y(-120, 1),
+            parkingSign().position.x(0, 1),
         ),
         all(
-            parkingCar().position.x(650, 1, easeInOutCubic),
-            parkingCar().position.y(80, 1, easeInOutCubic),
+            parkingCar().position.x(550, 1, easeInOutCubic),
+            parkingCar().position.y(40, 1, easeInOutCubic),
         ),
+    )
+
+    //
+    // yield* beginSlide("Add Sepp GmbH")
+    const containerBox = createRef<SurroundingRectangle>()
+    const functionCube = createRef<Rect>()
+    const seppTitle = createRef<Txt>()
+
+    view.add(
+        <>
+            <SurroundingRectangle lineWidth={10} stroke={enomicsColor} radius={40}
+                                  bufferY={120}
+                                  ref={containerBox} nodes={box1()} opacity={0}></SurroundingRectangle>
+
+            <Rect ref={functionCube} height={100} opacity={0} width={100} fill={"red"}
+                  x={() => view.height() / -2 - 130}/>
+
+            <Txt ref={seppTitle} y={() => view.height() / -2 + 150} fontSize={100}
+                 x={() => view.width() / -2 + 650} fill={enomicsColor}
+                 fontWeight={20000} fontFamily={"Roboto"}/>
+        </>
+    )
+
+    yield* sequence(0.3,
+        containerBox().opacity(1, 2),
+        containerBox().nodes([box1(), box3(), parkingCar(), functionCube()], 1),
+        seppTitle().text("Sepp-Huber GmbH", 2)
+    )
+
+
+    //-----------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------
+    yield* beginSlide("Show Whitelist")
+    const whitelistRef = createRef<Img>()
+
+    view.add(
+        <Img ref={whitelistRef} zIndex={30} scale={0.5} y={() => view.height()} shadowBlur={50}
+             shadowColor={enomicsColor} radius={30}
+             clip src={whitelist}/>
+    )
+    yield* sequence(
+        0.3,
+        whitelistRef().position.y(100, 2.5),
+        whitelistRef().position.x(-200, 2.5),
+        whitelistRef().scale(0.9, 2.5)
     )
 
 

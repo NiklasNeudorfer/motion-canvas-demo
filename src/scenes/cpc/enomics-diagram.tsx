@@ -11,7 +11,11 @@ import parkingSrc from "../../../images/cpc/parking.png"
 import raspLogo from "../../../images/cpc/rasp-pi-logo.png"
 import whitelist from "../../../images/cpc/user-whitelist.png"
 import {Brace, SurroundingRectangle} from "@ksassnowski/motion-canvas-components";
-import userJournal from "../../../images/cpc/user-journal.png";
+
+
+import angularLogo from "../../../images/cpc/angular.png"
+import material from "../../../images/cpc/angular-material-logo.jpg"
+import bootstrapLogo from "../../../images/cpc/bootstrap-logo.png"
 
 export default makeScene2D(function* (view) {
 
@@ -245,8 +249,54 @@ export default makeScene2D(function* (view) {
         ),
     )
 
-    //
-    // yield* beginSlide("Add Sepp GmbH")
+
+    //-----------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------
+    yield* beginSlide("Technologies")
+    const implementationLine = createRef<Line>()
+    const bootstrapRef = createRef<Img>()
+    const materialRef = createRef<Img>()
+    const angularRef = createRef<Img>()
+
+    view.add(
+        <>
+            <Line
+                ref={implementationLine}
+                shadowColor={"lightgrey"} shadowBlur={5}
+                lineDash={[20, 20]} endArrow
+                lineWidth={12} end={0}
+                stroke={lineColor}
+                points={[
+                    [-100, 60],
+                    [-100, 250]
+                ]}
+            />
+
+            <Img ref={angularRef} src={angularLogo} scale={0} y={() => view.height()} x={-100}/>
+            <Img ref={materialRef} src={material} scale={0} y={() => view.height()} x={420}/>
+            <Img ref={bootstrapRef} src={bootstrapLogo} scale={0} y={() => view.height()} x={-320}/>
+        </>
+    )
+    yield* sequence(
+        0.3,
+        implementationLine().end(1, 3),
+        all(
+            angularRef().position.y(400, 2),
+            angularRef().scale(0.065, 2),
+        ),
+        all(
+            materialRef().position.y(400, 2),
+            materialRef().scale(0.8, 2),
+        ),
+        all(
+            bootstrapRef().position.y(400, 2),
+            bootstrapRef().scale(0.25, 2),
+        )
+    )
+
+    //-----------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------
+    yield* beginSlide("Add Sepp GmbH")
     const containerBox = createRef<SurroundingRectangle>()
     const functionCube = createRef<Rect>()
     const seppTitle = createRef<Txt>()
@@ -266,6 +316,23 @@ export default makeScene2D(function* (view) {
         </>
     )
 
+    yield* sequence(
+        0.3,
+        implementationLine().end(0, 3),
+        all(
+            angularRef().position.y(() => view.height(), 2),
+            angularRef().scale(0.065, 2),
+        ),
+        all(
+            materialRef().position.y(() => view.height(), 2),
+            materialRef().scale(0.8, 2),
+        ),
+        all(
+            bootstrapRef().position.y(() => view.height(), 2),
+            bootstrapRef().scale(0.25, 2),
+        )
+    )
+
     yield* sequence(0.3,
         containerBox().opacity(1, 2),
         containerBox().nodes([box1(), box3(), parkingCar(), functionCube()], 1),
@@ -275,7 +342,7 @@ export default makeScene2D(function* (view) {
 
     //-----------------------------------------------------------------------------------------------------------------
     //-----------------------------------------------------------------------------------------------------------------
-    yield* beginSlide("Show Whitelist")
+    yield* beginSlide("Whitelist")
     const whitelistRef = createRef<Img>()
 
     view.add(

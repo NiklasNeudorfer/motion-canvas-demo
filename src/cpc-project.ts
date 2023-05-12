@@ -8,5 +8,5 @@ import enomicsDiagram from "./scenes/cpc/enomics-diagram?scene";
 import simpleTitle from "./scenes/cpc/simpleTitle?scene";
 
 export default makeProject({
-    scenes: [simpleTitle, logo, enomicsDiagram, uiComparison],
+    scenes: [title, logo, enomicsDiagram, uiComparison],
 });

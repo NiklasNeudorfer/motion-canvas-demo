@@ -1,7 +1,7 @@
 import {makeScene2D} from "@motion-canvas/2d";
 import {slideTransition} from "@motion-canvas/core/lib/transitions";
 import {Direction} from "@motion-canvas/core/lib/types";
-import {all, sequence} from "@motion-canvas/core/lib/flow";
+import {all, chain, sequence} from "@motion-canvas/core/lib/flow";
 import {Img, Rect, Txt} from "@motion-canvas/2d/lib/components";
 import {beginSlide, createRef} from "@motion-canvas/core/lib/utils";
 import oldUI from "../../../images/cpc/old-gui.png"
@@ -11,6 +11,12 @@ import config from "../../../images/cpc/config.png"
 import journal from "../../../images/cpc/journal.png"
 import userJournal from "../../../images/cpc/user-journal.png"
 import dashboard from "../../../images/cpc/dashboard.png"
+
+import otherBugReport from "../../../images/cpc/other_bugReport.png";
+import otherConfigJournal from "../../../images/cpc/other_config_journal.png";
+import otherFcode from "../../../images/cpc/other_fcode.png";
+import otherHelp from "../../../images/cpc/other_help.png";
+import otherLoadcontrol from "../../../images/cpc/other_loadcontrol.png";
 
 
 export default makeScene2D(function* (view) {
@@ -143,7 +149,115 @@ export default makeScene2D(function* (view) {
     )
     //-----------------------------------------------------------------------------------------------------------------
     //-----------------------------------------------------------------------------------------------------------------
+    yield* beginSlide("Other Screens")
+    const blurryRect = createRef<Rect>()
+
+    const bugreportRef = createRef<Img>()
+    const configJournalRef = createRef<Img>()
+    const fcodeRef = createRef<Img>()
+    const helpRef = createRef<Img>()
+    const loadcontrolRef = createRef<Img>()
+
+    view.add(
+        <>
+            <Rect ref={blurryRect} fill={"black"} zIndex={10000}
+                  shadowBlur={1000} shadowColor={"black"}
+                  width={() => view.width()} height={() => view.height()}
+                  radius={40} opacity={0}></Rect>
+
+
+            <Img ref={bugreportRef} zIndex={30000} scale={0.5} y={() => view.height()} shadowBlur={50}
+                 shadowColor={enomicsColor} radius={30}
+                 clip src={otherBugReport}/>
+
+            <Img ref={configJournalRef} zIndex={30000} scale={0.5} y={() => view.height()} shadowBlur={50}
+                 shadowColor={enomicsColor} radius={30}
+                 clip src={otherConfigJournal}/>
+
+            <Img ref={fcodeRef} zIndex={30000} scale={0.5} y={() => view.height()} shadowBlur={50}
+                 shadowColor={enomicsColor} radius={30}
+                 clip src={otherFcode}/>
+
+            <Img ref={helpRef} zIndex={30000} scale={0.5} y={() => view.height()} shadowBlur={50}
+                 shadowColor={enomicsColor} radius={30}
+                 clip src={otherHelp}/>
+
+            <Img ref={loadcontrolRef} zIndex={30000} scale={0.5} y={() => view.height()} shadowBlur={50}
+                 shadowColor={enomicsColor} radius={30}
+                 clip src={otherLoadcontrol}/>
+        </>
+    )
+
+    loadcontrolRef().save()
+    configJournalRef().save()
+    fcodeRef().save()
+    helpRef().save()
+    bugreportRef().save()
+
+
+    yield* chain(
+        blurryRect().opacity(0.5, 2),
+        all(
+            sequence(0.1,
+                all(
+                    bugreportRef().scale(0.4, 2),
+                    sequence(0.3,
+                        bugreportRef().position.x(630, 2),
+                        bugreportRef().position.y(-320, 2),
+                        bugreportRef().rotation(4, 2)
+                    )
+                ),
+                all(
+                    configJournalRef().scale(0.5, 2),
+                    sequence(0.3,
+                        configJournalRef().position.x(400, 2),
+                        configJournalRef().position.y(200, 2),
+                        configJournalRef().rotation(4, 2)
+                    )
+                ),
+                all(
+                    fcodeRef().scale(0.45, 2),
+                    sequence(0.3,
+                        fcodeRef().position.x(-650, 2),
+                        fcodeRef().position.y(-300, 2),
+                        fcodeRef().rotation(-5, 2),
+                    )
+                ),
+                all(
+                    helpRef().scale(0.4, 2),
+                    sequence(0.3,
+                        helpRef().position.x(0, 2),
+                        helpRef().position.y(-320, 2),
+                        helpRef().rotation(0, 2),
+                    )
+                ),
+                all(
+                    loadcontrolRef().scale(0.45, 2),
+                    sequence(0.3,
+                        loadcontrolRef().position.x(-500, 2),
+                        loadcontrolRef().position.y(200, 2),
+                        loadcontrolRef().rotation(-2, 2)
+                    )
+                ),
+            ),
+        )
+    )
+
+    //-----------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------
     yield* beginSlide("Move All Images to border")
+
+    yield* chain(
+        all(
+            loadcontrolRef().restore(2),
+            configJournalRef().restore(2),
+            fcodeRef().restore(2),
+            helpRef().restore(2),
+            bugreportRef().restore(2)
+        ),
+        blurryRect().opacity(0, 1)
+    )
+
 
     yield* all(titleTxt().text("", 0))
 
@@ -189,6 +303,54 @@ export default makeScene2D(function* (view) {
                         journalRef().rotation(2, 2)
                     )
                 ),
+                all(
+                    sequence(0.1,
+                        all(
+                            bugreportRef().zIndex(1000020,0),
+                            bugreportRef().scale(0.25, 2),
+                            sequence(0.3,
+                                bugreportRef().position.x(630, 2),
+                                bugreportRef().position.y(320, 2),
+                                bugreportRef().rotation(0, 2)
+                            )
+                        ),
+                        all(
+                            configJournalRef().zIndex(100000,0),
+                            configJournalRef().scale(0.25, 2),
+                            sequence(0.3,
+                                configJournalRef().position.x(450, 2),
+                                configJournalRef().position.y(200, 2),
+                                configJournalRef().rotation(2, 2)
+                            )
+                        ),
+                        all(
+                            fcodeRef().zIndex(1000000,0),
+                            fcodeRef().scale(0.25, 2),
+                            sequence(0.3,
+                                fcodeRef().position.x(450, 2),
+                                fcodeRef().position.y(400, 2),
+                                fcodeRef().rotation(5, 2),
+                            )
+                        ),
+                        all(
+                            helpRef().zIndex(100000,0),
+                            helpRef().scale(0.25, 2),
+                            sequence(0.3,
+                                helpRef().position.x(800, 2),
+                                helpRef().position.y(400, 2),
+                                helpRef().rotation(-2, 2),
+                            )
+                        ),
+                        all(
+                            loadcontrolRef().scale(0.25, 2),
+                            sequence(0.3,
+                                loadcontrolRef().position.x(800, 2),
+                                loadcontrolRef().position.y(200, 2),
+                                loadcontrolRef().rotation(-2, 2)
+                            )
+                        ),
+                    ),
+                )
             ),
             all(
                 titleTxt().fontSize(100, 1),

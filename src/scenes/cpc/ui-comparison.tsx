@@ -34,7 +34,7 @@ export default makeScene2D(function* (view) {
 
     view.add(
         <>
-            <Txt fontFamily={"Open Sans"} fontSize={120} ref={titleTxt} text={"UI Comparison"}></Txt>
+            <Txt fontFamily={"Open Sans"} fontSize={120} ref={titleTxt} text={"GUI Vergleich"}></Txt>
             <Img ref={oldUIImage} scale={1} x={() => view.height()} y={() => view.height() * 2} shadowBlur={50}
                  shadowColor={"black"} radius={30} clip src={oldUI}/>
             <Img zIndex={20} ref={newUIImage} scale={1} y={() => view.height()} shadowBlur={50}
@@ -69,6 +69,9 @@ export default makeScene2D(function* (view) {
         newUIImage().position.y(0, 2.5),
         oldUIImage().scale(1, 2.5),
         newUIImage().scale(1.2, 2.5),
+    )
+    yield* all(
+        oldUIImage().scale(0, 0)
     )
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -120,6 +123,78 @@ export default makeScene2D(function* (view) {
         userJournalRef().position.y(0, 2.5),
         journalRef().scale(0.7, 2.5),
         userJournalRef().scale(0.8, 2.5)
+    )
+
+    //-----------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------
+    yield* beginSlide("Dashboard")
+    const dashboardRef = createRef<Img>()
+
+    view.add(
+        <Img ref={dashboardRef} zIndex={30} scale={0.5} y={() => view.height()} shadowBlur={50}
+             shadowColor={enomicsColor} radius={30}
+             clip src={dashboard}/>
+    )
+    yield* sequence(
+        0.3,
+        dashboardRef().position.y(0, 2.5),
+        userJournalRef().scale(0.7, 2.5),
+        dashboardRef().scale(0.8, 2.5)
+    )
+    //-----------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------
+    yield* beginSlide("Move All Images to border")
+
+    yield* all(titleTxt().text("", 0))
+
+    yield* all(
+        sequence(0.5,
+            sequence(0.1,
+                all(
+                    dashboardRef().scale(0.3, 2),
+                    sequence(0.3,
+                        dashboardRef().position.x(630, 2),
+                        dashboardRef().position.y(-320, 2),
+                        dashboardRef().rotation(4, 2)
+                    )
+                ),
+                all(
+                    userJournalRef().scale(0.3, 2),
+                    sequence(0.3,
+                        userJournalRef().position.x(0, 2),
+                        userJournalRef().position.y(300, 2)
+                    )
+                ),
+                all(
+                    newUIImage().scale(0.45, 2),
+                    sequence(0.3,
+                        newUIImage().position.x(-650, 2),
+                        newUIImage().position.y(-300, 2),
+                        newUIImage().rotation(-5, 2),
+                    )
+                ),
+                all(
+                    configRef().scale(0.4, 2),
+                    sequence(0.3,
+                        configRef().position.x(0, 2),
+                        configRef().position.y(-320, 2),
+                        configRef().rotation(0, 2),
+                    )
+                ),
+                all(
+                    journalRef().scale(0.35, 2),
+                    sequence(0.3,
+                        journalRef().position.x(-600, 2),
+                        journalRef().position.y(300, 2),
+                        journalRef().rotation(2, 2)
+                    )
+                ),
+            ),
+            all(
+                titleTxt().fontSize(100, 1),
+                titleTxt().text("Vielen Dank für Ihre Aufmerksamkeit!", 2)
+            )
+        )
     )
 
 

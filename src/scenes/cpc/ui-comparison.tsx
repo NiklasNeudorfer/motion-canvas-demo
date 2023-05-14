@@ -195,8 +195,8 @@ export default makeScene2D(function* (view) {
     bugreportRef().save()
 
 
-    yield* chain(
-        blurryRect().opacity(0.5, 2),
+    yield* sequence(0.5,
+        blurryRect().opacity(0.5, 1),
         all(
             sequence(0.1,
                 all(
@@ -247,7 +247,7 @@ export default makeScene2D(function* (view) {
     //-----------------------------------------------------------------------------------------------------------------
     yield* beginSlide("Move All Images to border")
 
-    yield* chain(
+    yield* sequence(0.5,
         all(
             loadcontrolRef().restore(2),
             configJournalRef().restore(2),
@@ -306,7 +306,7 @@ export default makeScene2D(function* (view) {
                 all(
                     sequence(0.1,
                         all(
-                            bugreportRef().zIndex(1000020,0),
+                            bugreportRef().zIndex(1000020, 0),
                             bugreportRef().scale(0.25, 2),
                             sequence(0.3,
                                 bugreportRef().position.x(630, 2),
@@ -315,7 +315,7 @@ export default makeScene2D(function* (view) {
                             )
                         ),
                         all(
-                            configJournalRef().zIndex(100000,0),
+                            configJournalRef().zIndex(100000, 0),
                             configJournalRef().scale(0.25, 2),
                             sequence(0.3,
                                 configJournalRef().position.x(450, 2),
@@ -324,7 +324,7 @@ export default makeScene2D(function* (view) {
                             )
                         ),
                         all(
-                            fcodeRef().zIndex(1000000,0),
+                            fcodeRef().zIndex(1000000, 0),
                             fcodeRef().scale(0.25, 2),
                             sequence(0.3,
                                 fcodeRef().position.x(450, 2),
@@ -333,7 +333,7 @@ export default makeScene2D(function* (view) {
                             )
                         ),
                         all(
-                            helpRef().zIndex(100000,0),
+                            helpRef().zIndex(100000, 0),
                             helpRef().scale(0.25, 2),
                             sequence(0.3,
                                 helpRef().position.x(800, 2),

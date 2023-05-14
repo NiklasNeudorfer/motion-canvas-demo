@@ -200,31 +200,6 @@ export default makeScene2D(function* (view) {
 
     yield* beginSlide("Enhance Diagram")
 
-    const parkingCar = createRef<Icon>()
-    const parkingSign = createRef<Node>()
-
-    view.add(
-        <Node x={200}>
-            <Node ref={parkingSign} y={-view.height()}>
-                <Line
-                    shadowColor={"lightgrey"} shadowBlur={5}
-                    lineWidth={12}
-                    stroke={"lightgrey"}
-                    points={[
-                        [450, 200],
-                        [450, 100]
-                    ]}
-                />
-
-                <Img shadowColor={"blue"} shadowBlur={8} src={parkingSrc} x={450} y={70} height={100} width={100}/>
-            </Node>
-
-            <Icon ref={parkingCar} icon={"fluent:vehicle-car-profile-rtl-20-regular"} color={lineColor}
-                  y={200} x={() => view.height()} height={200} width={200}/>
-        </Node>
-    )
-
-
     yield* sequence(0.3,
         all(
             diagram().position.x(-100, 1),
@@ -235,17 +210,6 @@ export default makeScene2D(function* (view) {
             enomics().scale(0.1, 1),
             enomics().position.x(-620, 1),
             enomics().position.y(-20, 1),
-        ),
-        all(
-            parkingSign().scale(1, 0),
-            parkingCar().scale(1, 0),
-
-            parkingSign().position.y(-120, 1),
-            parkingSign().position.x(0, 1),
-        ),
-        all(
-            parkingCar().position.x(550, 1, easeInOutCubic),
-            parkingCar().position.y(40, 1, easeInOutCubic),
         ),
     )
 
@@ -301,8 +265,30 @@ export default makeScene2D(function* (view) {
     const functionCube = createRef<Rect>()
     const seppTitle = createRef<Txt>()
 
+    const parkingCar = createRef<Icon>()
+    const parkingSign = createRef<Node>()
+
     view.add(
         <>
+            <Node x={200}>
+                <Node ref={parkingSign} y={-view.height()}>
+                    <Line
+                        shadowColor={"lightgrey"} shadowBlur={5}
+                        lineWidth={12}
+                        stroke={"lightgrey"}
+                        points={[
+                            [450, 200],
+                            [450, 100]
+                        ]}
+                    />
+
+                    <Img shadowColor={"blue"} shadowBlur={8} src={parkingSrc} x={450} y={70} height={100} width={100}/>
+                </Node>
+
+                <Icon ref={parkingCar} icon={"fluent:vehicle-car-profile-rtl-20-regular"} color={lineColor}
+                      y={200} x={() => view.height()} height={200} width={200}/>
+            </Node>
+
             <SurroundingRectangle lineWidth={10} stroke={enomicsColor} radius={40}
                                   bufferY={120}
                                   ref={containerBox} nodes={box1()} opacity={0}></SurroundingRectangle>
@@ -334,6 +320,19 @@ export default makeScene2D(function* (view) {
     )
 
     yield* sequence(0.3,
+        all(
+            all(
+                parkingSign().scale(1, 0),
+                parkingCar().scale(1, 0),
+
+                parkingSign().position.y(-120, 1),
+                parkingSign().position.x(0, 1),
+            ),
+            all(
+                parkingCar().position.x(550, 1, easeInOutCubic),
+                parkingCar().position.y(40, 1, easeInOutCubic),
+            ),
+        ),
         containerBox().opacity(1, 2),
         containerBox().nodes([box1(), box3(), parkingCar(), functionCube()], 1),
         seppTitle().text("Sepp-Huber GmbH", 2)

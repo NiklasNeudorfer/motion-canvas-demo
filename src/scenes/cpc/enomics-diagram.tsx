@@ -291,7 +291,8 @@ export default makeScene2D(function* (view) {
 
             <SurroundingRectangle lineWidth={10} stroke={enomicsColor} radius={40}
                                   bufferY={120}
-                                  ref={containerBox} nodes={box1()} opacity={0}></SurroundingRectangle>
+                                  ref={containerBox} nodes={box1()} opacity={0}>
+            </SurroundingRectangle>
 
             <Rect ref={functionCube} height={100} opacity={0} width={100} fill={"red"}
                   x={() => view.height() / -2 - 130}/>

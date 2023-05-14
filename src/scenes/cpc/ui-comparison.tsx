@@ -1,7 +1,7 @@
 import {makeScene2D} from "@motion-canvas/2d";
 import {slideTransition} from "@motion-canvas/core/lib/transitions";
 import {Direction} from "@motion-canvas/core/lib/types";
-import {all, chain, sequence} from "@motion-canvas/core/lib/flow";
+import {all, chain, sequence, waitFor} from "@motion-canvas/core/lib/flow";
 import {Img, Rect, Txt} from "@motion-canvas/2d/lib/components";
 import {beginSlide, createRef} from "@motion-canvas/core/lib/utils";
 import oldUI from "../../../images/cpc/old-gui.png"
@@ -17,6 +17,8 @@ import otherConfigJournal from "../../../images/cpc/other_config_journal.png";
 import otherFcode from "../../../images/cpc/other_fcode.png";
 import otherHelp from "../../../images/cpc/other_help.png";
 import otherLoadcontrol from "../../../images/cpc/other_loadcontrol.png";
+
+import {Brace, SurroundingRectangle} from "@ksassnowski/motion-canvas-components";
 
 
 export default makeScene2D(function* (view) {
@@ -82,6 +84,35 @@ export default makeScene2D(function* (view) {
 
     //-----------------------------------------------------------------------------------------------------------------
     //-----------------------------------------------------------------------------------------------------------------
+    yield* beginSlide("Overview Hint")
+    const overviewHintRef = createRef<Rect>()
+    const overviewHintContainerBox = createRef<SurroundingRectangle>()
+
+    view.add(
+        <>
+            <Rect fill={"red"} ref={overviewHintRef}
+                  x={-410} y={-55} opacity={0}
+                  width={120} height={50} zIndex={100000}></Rect>
+
+            <SurroundingRectangle lineWidth={10} stroke={"black"} radius={40}
+                                  zIndex={100000} buffer={100}
+                                  ref={overviewHintContainerBox} nodes={newUIImage()} opacity={0}>
+            </SurroundingRectangle>
+        </>
+    )
+
+    yield* sequence(0.3,
+        all(
+            overviewHintContainerBox().buffer(0, 1),
+            overviewHintContainerBox().radius(20, 1),
+        ),
+        overviewHintContainerBox().nodes(overviewHintRef(), 2),
+        overviewHintContainerBox().opacity(1, 1)
+    )
+
+
+    //-----------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------
     yield* beginSlide("Config")
     const configRef = createRef<Img>()
 
@@ -92,6 +123,7 @@ export default makeScene2D(function* (view) {
     )
     yield* sequence(
         0.3,
+        overviewHintContainerBox().opacity(0,1),
         configRef().position.y(0, 2.5),
         newUIImage().scale(1, 2.5),
         configRef().scale(1.1, 2.5)
